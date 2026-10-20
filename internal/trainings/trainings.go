@@ -27,6 +27,9 @@ func (t *Training) Parse(datastring string) (err error) {
 	if err != nil {
 		return err
 	}
+	if steps <= 0 {
+		return errors.New("количество шагов должно быть больше нуля")
+	}
 	t.Steps = steps
 
 	t.TrainingType = sliceData[1]
@@ -34,6 +37,9 @@ func (t *Training) Parse(datastring string) (err error) {
 	durationTraining, err := time.ParseDuration(sliceData[2])
 	if err != nil {
 		return err
+	}
+	if durationTraining <= 0 {
+		return errors.New("продолжительность должна быть больше нуля")
 	}
 	t.Duration = durationTraining
 

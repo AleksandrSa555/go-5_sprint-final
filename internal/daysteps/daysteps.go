@@ -26,11 +26,17 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	if err != nil {
 		return err
 	}
+	if steps <= 0 {
+		return errors.New("количество шагов должно быть больше нуля")
+	}
 	ds.Steps = steps
 
 	durationSteps, err := time.ParseDuration(sliceData[1])
 	if err != nil {
 		return err
+	}
+	if durationSteps <= 0 {
+		return errors.New("продолжительность должна быть больше нуля")
 	}
 	ds.Duration = durationSteps
 
