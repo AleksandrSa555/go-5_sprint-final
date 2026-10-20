@@ -2,11 +2,13 @@ package daysteps
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/Yandex-Practicum/tracker/internal/personaldata"
+	"github.com/Yandex-Practicum/tracker/internal/spentenergy"
 )
 
 type DaySteps struct {
@@ -36,5 +38,14 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 }
 
 func (ds DaySteps) ActionInfo() (string, error) {
-	// TODO: реализовать функцию
+	dist := spentenergy.Distance(ds.Steps, ds.Height)
+	calories, err := spentenergy.WalkingSpentCalories(ds.Steps, ds.Weight, ds.Height, ds.Duration)
+	if err != nil {
+		return "", err
+	}
+	res := fmt.Sprintf("Количество шагов: %d.\n"+
+		"Дистанция составила %.2f км.\n"+
+		"Вы сожгли %.2f ккал.\n",
+		ds.Steps, dist, calories)
+	return res, nil
 }
