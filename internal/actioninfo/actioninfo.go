@@ -20,8 +20,8 @@ func Info(dataset []string, dp DataParser) {
 		res, err := dp.ActionInfo()
 		if err != nil {
 			log.Println(err)
-		} else {
-			fmt.Println(res)
+			continue
 		}
+		fmt.Println(res)
 	}
 }

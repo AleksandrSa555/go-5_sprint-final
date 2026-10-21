@@ -24,7 +24,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	}
 	steps, err := strconv.Atoi(sliceData[0])
 	if err != nil {
-		return err
+		return fmt.Errorf("неправильный формат шагов: %w", err)
 	}
 	if steps <= 0 {
 		return errors.New("количество шагов должно быть больше нуля")
@@ -33,7 +33,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 
 	durationSteps, err := time.ParseDuration(sliceData[1])
 	if err != nil {
-		return err
+		return fmt.Errorf("неверный формат продолжительности шагов: %w", err)
 	}
 	if durationSteps <= 0 {
 		return errors.New("продолжительность должна быть больше нуля")
@@ -47,7 +47,7 @@ func (ds DaySteps) ActionInfo() (string, error) {
 	dist := spentenergy.Distance(ds.Steps, ds.Height)
 	calories, err := spentenergy.WalkingSpentCalories(ds.Steps, ds.Weight, ds.Height, ds.Duration)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("неверный расчет калорий: %w", err)
 	}
 	res := fmt.Sprintf("Количество шагов: %d.\n"+
 		"Дистанция составила %.2f км.\n"+
